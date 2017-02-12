@@ -15,7 +15,7 @@ from PIL import Image
 import pytesseract
 import re
 
-def winco_receipt_line(line):
+def receipt_line(line):
     s = re.search(r'((I|T)F)|((I|T)x)', line)
     if(s is None):
         return None
@@ -116,17 +116,14 @@ print "STEP 4: Convert receipt to csv file"
 csv_filename = sp[0] + '.csv'
 csv_file = open(csv_filename, "w")
 
-if(args['which_receipt'] == 'winco'):
-    process_line = winco_receipt_line
+#if(args['which_receipt'] == 'winco'):
+#process_line = receipt_line
 
 st = pytesseract.image_to_string(Image.open(save_filename), config="-psm 6")
 for cur_line in st.split('\n'):
     print(cur_line)
-    ret = process_line(cur_line)
-
-    if(ret is None):
-        continue
-
-    csv_file.write(ret + '\n')
-
+    #ret = process_line(cur_line)
+    #if(ret is None):
+     #   continue
+    csv_file.write(cur_line + '\n')
 csv_file.close()
